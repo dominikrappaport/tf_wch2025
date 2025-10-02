@@ -18,7 +18,7 @@ population <- read_csv("data/processed/population.csv")
 
 # Run query ---------------------------------------------------------------
 
-tf.wch2025 %>%
+tbl <- tf.wch2025 %>%
   unique() %>%
   group_by(country) %>%
   summarise(`Number of Athletes` = n()) %>%
@@ -32,3 +32,5 @@ tf.wch2025 %>%
   gt() %>%
   fmt_number(dec_mark = ",", sep_mark = "&#8239;", decimals = 0) %>%
   fmt_number(columns = `Number of Athletes per 100k`, decimals = 4)
+
+gtsave(tbl, "output/athletes_per_country.html")
