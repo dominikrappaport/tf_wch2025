@@ -4,6 +4,7 @@
 library(tidyverse)
 library(countrycode)
 library(knitr)
+library(kableExtra)
 
 # Load data ---------------------------------------------------------------
 
@@ -19,10 +20,15 @@ tbl <- tf.wch2025 %>%
   mutate(iso3c = countrycode(country, "ioc", "iso3c")) %>%
   left_join(population, by = c("iso3c" = "Country Code")) %>%
   rename(Population = `2024`) %>%
-  select(`Country Name`, Population, `Number of Athletes`) %>%
   mutate(`Number of Athletes per 100k` = `Number of Athletes` / (Population / 100000)) %>%
   arrange(desc(`Number of Athletes per 100k`)) %>%
+  mutate(Position = row_number()) %>%
+  select(Position,
+         `Country Name`,
+         Population,
+         `Number of Athletes`,
+         `Number of Athletes per 100k`) %>%
   drop_na()
 
-tbl.md <- kable(tbl, format = "markdown", digits = c(0, 0, 0, 4))
+tbl.md <- kable(tbl, format = "markdown", digits = c(0, 0, 0, 0, 4))
 writeLines(tbl.md, "output/athletes_per_country.md")
