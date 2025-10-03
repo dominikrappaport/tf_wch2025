@@ -1,15 +1,9 @@
 
-# Install libraries if necessary ------------------------------------------
-
-install.packages("tidyverse")
-install.packages("countrycode")
-install.packages("gt")
-
 # Load libraries ----------------------------------------------------------
 
 library(tidyverse)
 library(countrycode)
-library(gt)
+library(knitr)
 
 # Load data ---------------------------------------------------------------
 
@@ -28,9 +22,7 @@ tbl <- tf.wch2025 %>%
   select(`Country Name`, Population, `Number of Athletes`) %>%
   mutate(`Number of Athletes per 100k` = `Number of Athletes` / (Population / 100000)) %>%
   arrange(desc(`Number of Athletes per 100k`)) %>%
-  drop_na() %>%
-  gt() %>%
-  fmt_number(dec_mark = ",", sep_mark = "&#8239;", decimals = 0) %>%
-  fmt_number(columns = `Number of Athletes per 100k`, decimals = 4)
+  drop_na()
 
-gtsave(tbl, "output/athletes_per_country.html")
+tbl.md <- kable(tbl, format = "markdown", digits = c(0, 0, 0, 4))
+writeLines(tbl.md, "output/athletes_per_country.md")
