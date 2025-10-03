@@ -1,5 +1,9 @@
 # Athletes per country in the 2025 Track and Field World Championship Tokyo
 
+## Author
+
+Dominik Rappaport, dominik@rappaport.at.
+
 ## Objective
 
 I got myself interested in the number of athletes each country has sent to the
